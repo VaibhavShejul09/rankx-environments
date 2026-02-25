@@ -1,0 +1,84 @@
+# -------------------------
+# Deployment Kind
+# -------------------------
+kind: Deployment
+
+name: auth-backend
+replicaCount: 1
+
+# -------------------------
+# Docker image
+# -------------------------
+image:
+  repository: shejulv088/final_auth_service
+  tag: v1
+  pullPolicy: IfNotPresent
+
+# -------------------------
+# Service config
+# -------------------------
+service:
+  type: ClusterIP
+  port: 8081
+
+# -------------------------
+# ConfigMap
+# -------------------------
+config:
+  SPRING_JPA_HIBERNATE_DDL_AUTO: update
+  SPRING_JPA_SHOW_SQL: "true"
+  SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+
+  SPRING_CONFIG_URI: http://config-server:8888
+  SPRING_PROFILES_ACTIVE: native
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql-auth-service:3306/application_auth_db
+  SPRING_DATASOURCE_USERNAME: root
+  SPRING_REDIS_HOST: redis
+  SPRING_REDIS_PORT: "6379"
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka
+
+# -------------------------
+# Secret
+# -------------------------
+secret:
+  SPRING_DATASOURCE_PASSWORD: root
+
+# -------------------------
+# Init container for MySQL
+# -------------------------
+initContainers:
+  - name: wait-for-mysql-auth
+    image: busybox
+    command:
+      - sh
+      - -c
+      - |
+        echo "Waiting for MySQL..."
+        until nc -z mysql-auth-service 3306; do
+          sleep 5
+        done
+
+# -------------------------
+# Liveness Probe
+# -------------------------
+livenessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 90
+  periodSeconds: 20
+  timeoutSeconds: 2
+  failureThreshold: 5
+
+# -------------------------
+# Readiness Probe
+# -------------------------
+readinessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 120
+  periodSeconds: 20
+  timeoutSeconds: 2
+  failureThreshold: 3
+
+# -------------------------
+# Resources (optional)
+# -------------------------
+resources: {}

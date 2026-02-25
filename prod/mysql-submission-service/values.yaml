@@ -1,0 +1,46 @@
+kind: StatefulSet
+name: mysql-submission-service
+replicaCount: 1
+
+service:
+  port: 3306
+
+image:
+  repository: mysql
+  tag: 8.0
+
+# Secret must be a map of key/value pairs, not just a name
+secret:
+  MYSQL_ROOT_PASSWORD: root
+
+# ConfigMap (if you need MySQL database name)
+config:
+  MYSQL_DATABASE: application_submission_db
+
+# Persistent volume
+persistence:
+  name: mysql-submission-data
+  mountPath: /var/lib/mysql
+  size: 5Gi
+
+# Liveness probe
+livenessProbe:
+  exec:
+    - sh
+    - -c
+    - mysqladmin ping -uroot -p$MYSQL_ROOT_PASSWORD
+  initialDelaySeconds: 180
+  periodSeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+# Readiness probe
+readinessProbe:
+  exec:
+    - sh
+    - -c
+    - mysqladmin ping -uroot -p$MYSQL_ROOT_PASSWORD
+  initialDelaySeconds: 120
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 3
