@@ -3,7 +3,7 @@ replicaCount: 1
 kind: Deployment
 
 image:
-  repository: jenkins_api_gateway
+  repository: shejulv088/jenkins_api_gateway
   tag: "41-ae8280b"
 
 service:
