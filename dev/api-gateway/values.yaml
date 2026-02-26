@@ -4,7 +4,7 @@ kind: Deployment
 
 image:
   repository: shejulv088/jenkins_api_gateway
-  tag: "42-ae8280b"
+  tag: "1-ae8280b"
 
 service:
   port: 8080
