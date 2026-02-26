@@ -4,7 +4,7 @@ kind: Deployment
 
 image:
   repository: shejulv088/final_apigateway
-  tag: "38-5bef8a2"
+  tag: "39-4e23695"
 
 service:
   port: 8080
