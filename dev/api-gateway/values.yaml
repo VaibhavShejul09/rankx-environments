@@ -3,7 +3,7 @@ replicaCount: 1
 kind: Deployment
 
 image:
-  repository: shejulv088/final_apigateway
+  repository: jenkins_api_gateway     // shejulv088/final_apigateway
   tag: "39-4e23695"
 
 service:
