@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: shejulv088/final_frontend
-  tag: v3
+  tag: v1
 
 service:
   type: ClusterIP
