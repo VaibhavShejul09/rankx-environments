@@ -5,7 +5,7 @@ replicaCount: 1
 
 image:
   repository: shejulv088/final_discovery_server
-  tag: "1-02b46d8"
+  tag: "2-02b46d8"
 
 service:
   type: ClusterIP
