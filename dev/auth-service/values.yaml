@@ -11,7 +11,7 @@ replicaCount: 1
 # -------------------------
 image:
   repository: shejulv088/final_auth_service
-  tag: "6-abbe6ba"
+  tag: "7-abbe6ba"
   pullPolicy: IfNotPresent
 
 # -------------------------
