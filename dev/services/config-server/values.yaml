@@ -2,7 +2,7 @@ kind: Deployment
 
 name: config-server
 
-replicaCount: 4
+replicaCount: 1
 
 image:
   repository: shejulv088/final_config_server
