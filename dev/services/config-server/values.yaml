@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: shejulv088/final_config_server
-  tag: "4-d4e1e97"
+  tag: "4-d4e1e989"
 
 service:
   type: ClusterIP
