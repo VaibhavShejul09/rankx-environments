@@ -3,6 +3,7 @@ kind: Deployment
 name: frontend
 
 replicaCount: 1
+syncWave: 6
 
 image:
   repository: shejulv088/final_frontend
