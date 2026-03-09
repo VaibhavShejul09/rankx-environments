@@ -5,6 +5,7 @@ kind: Deployment
 
 name: auth-backend
 replicaCount: 1
+syncWave: 2
 
 # -------------------------
 # Docker image
