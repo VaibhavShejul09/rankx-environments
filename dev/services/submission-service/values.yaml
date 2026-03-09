@@ -5,6 +5,7 @@ kind: Deployment
 
 name: submission-service
 replicaCount: 1
+syncWave: 4
 
 # -------------------------
 # Docker image
