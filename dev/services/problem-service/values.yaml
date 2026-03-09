@@ -12,7 +12,7 @@ syncWave: 3
 # -------------------------
 image:
   repository: shejulv088/final_problem_service
-  tag: v1
+  tag: "7-e5bdcef"
   pullPolicy: IfNotPresent
 
 # -------------------------
