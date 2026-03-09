@@ -5,6 +5,7 @@ kind: Deployment
 
 name: problem-service
 replicaCount: 1
+syncWave: 3
 
 # -------------------------
 # Docker image
