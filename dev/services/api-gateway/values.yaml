@@ -1,5 +1,6 @@
 name: api-gateway
 replicaCount: 1
+syncWave: 5
 kind: Deployment
 
 image:
