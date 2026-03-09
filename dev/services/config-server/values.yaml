@@ -3,7 +3,7 @@ kind: Deployment
 name: config-server
 
 replicaCount: 1
-
+syncWave: 0
 image:
   repository: shejulv088/final_config_server
   tag: "4-d4e1e97"
