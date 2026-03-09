@@ -2,6 +2,7 @@ kind: Deployment
 name: discovery-server
 
 replicaCount: 1
+syncWave: 1
 
 image:
   repository: shejulv088/final_discovery_server
