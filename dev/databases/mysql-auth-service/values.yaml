@@ -19,8 +19,10 @@ config:
 
 # Persistent volume
 persistence:
+  enabled: true                 # 🔥 REQUIRED
   name: mysql-auth-data
   mountPath: /var/lib/mysql
+  storageClass: gp3             # 🔥 REQUIRED for EBS
   size: 5Gi
 
 # Liveness probe
