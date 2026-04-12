@@ -1,0 +1,34 @@
+kind: Deployment
+
+name: config-server
+
+replicaCount: 1
+syncWave: 0
+image:
+  repository: shejulv088/final_config_server
+  tag: "4-d4e1e97"
+
+service:
+  type: ClusterIP
+  port: 8888
+
+config: {}
+secret: {}
+
+livenessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 60
+  periodSeconds: 20
+
+readinessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 30
+  periodSeconds: 15
+
+resources:
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"

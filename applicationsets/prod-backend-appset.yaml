@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: prod-services
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/VaibhavShejul09/rankx-environments.git
+      revision: main
+      directories:
+      - path: environments/prod/services/*
+  template:
+    metadata:
+      name: '{{path.basename}}-prod'
+      labels:
+        type: microservice
+        env: prod  
+      annotations:                     # 🔥 ADD HERE
+        argocd.argoproj.io/sync-wave: "3"   
+    spec:
+      project: microservices
+      source:
+        repoURL: https://github.com/VaibhavShejul09/centralized-helm-repo.git
+        targetRevision: main
+        path: charts/microservice-base
+        helm:
+          valueFiles:
+          - values.yaml
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: prod
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: false
+        retry:
+          limit: 3
+          backoff:
+              duration: 5s
+              factor: 2
+              maxDuration: 1m  
+        syncOptions:
+        - CreateNamespace=true   

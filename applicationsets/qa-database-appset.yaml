@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: qa-databases
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/VaibhavShejul09/rankx-environments.git
+      revision: main
+      directories:
+      - path: environments/qa/databases/*
+  template:
+    metadata:
+      name: '{{path.basename}}-qa'
+      labels:
+        type: database
+        env: qa
+      annotations:                     # 🔥 ADD HERE
+        argocd.argoproj.io/sync-wave: "2"  
+    spec:
+      project: databases
+      source:
+        repoURL: https://github.com/VaibhavShejul09/centralized-helm-repo.git
+        targetRevision: main
+        path: charts/microservice-base
+        helm:
+          valueFiles:
+          - values.yaml
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: qa
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        retry:
+          limit: 3
+          backoff:
+              duration: 5s
+              factor: 2
+              maxDuration: 1m  
+        syncOptions:
+        - CreateNamespace=true   

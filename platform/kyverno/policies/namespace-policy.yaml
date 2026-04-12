@@ -1,0 +1,20 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restrict-namespaces
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: only-allowed-namespaces
+      match:
+        resources:
+          kinds:
+            - Pod
+      validate:
+        message: "Deployment allowed only in dev, qa, prod namespaces"
+        pattern:
+          metadata:
+            namespace: "dev|qa|prodargocd|kube-system|kyverno"

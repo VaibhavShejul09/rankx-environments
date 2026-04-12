@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: microservices
+  namespace: argocd
+spec:
+  description: Backend microservices project
+
+  sourceRepos:
+    - '*'   # allow all repos (you can restrict later)
+
+  destinations:
+    - namespace: dev
+      server: https://kubernetes.default.svc
+    - namespace: qa
+      server: https://kubernetes.default.svc
+    - namespace: prod
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

@@ -1,0 +1,22 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-health-probes
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: require-probes
+      match:
+        resources:
+          kinds:
+            - Pod
+      validate:
+        message: "Liveness and readiness probes are required for all containers"
+        pattern:
+          spec:
+            containers:
+              - livenessProbe: {}
+                readinessProbe: {}
