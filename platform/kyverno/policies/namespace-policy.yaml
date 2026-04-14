@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: restrict-namespaces
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   validationFailureAction: enforce
   background: true
@@ -13,8 +13,24 @@ spec:
         resources:
           kinds:
             - Pod
+          namespaces:
+            - dev   # ✅ apply ONLY to dev
+            - qa
+            - prod 
+      exclude:
+        resources:
+          namespaces:
+            - kube-system
+            - kube-public
+            - kube-node-lease
+            - argocd
+            - kyverno
+            - ingress-nginx
+            - cert-manager
+            - monitoring       
+            
       validate:
         message: "Deployment allowed only in dev, qa, prod namespaces"
         pattern:
           metadata:
-            namespace: "dev|qa|prodargocd|kube-system|kyverno"
+            namespace: "dev|qa|prod|argocd|kube-system|kyverno"

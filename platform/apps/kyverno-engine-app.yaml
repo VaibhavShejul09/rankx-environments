@@ -4,21 +4,43 @@ metadata:
   name: kyverno-engine
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "1"   # 🔥 Install FIRST
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: platform
+
   source:
     repoURL: https://kyverno.github.io/kyverno/
     chart: kyverno
-    targetRevision: 3.0.0   # use stable version
+    targetRevision: 3.1.4
     helm:
       values: |
+        installCRDs: true
+
         admissionController:
-          replicas: 2   # 🔥 HA setup
-        backgroundController:
           replicas: 2
+          pdb:
+            enabled: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+
+        backgroundController:  
+          replicas: 2
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi
+
         cleanupController:
           replicas: 2
+
         reportsController:
           replicas: 2
 
@@ -31,4 +53,4 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true   # 🔥 auto create kyverno namespace
+      - CreateNamespace=true

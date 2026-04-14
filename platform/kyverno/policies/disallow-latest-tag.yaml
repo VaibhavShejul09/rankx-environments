@@ -3,21 +3,44 @@ kind: ClusterPolicy
 metadata:
   name: disallow-latest-tag
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   validationFailureAction: enforce
-  background: true     //check existing resources also
+  background: true     # check existing resources also
   rules:
     - name: disallow-latest-tag
       match:
         resources:
           kinds:
             - Pod
+          namespaces:
+            - dev   # apply ONLY to dev
+            - qa
+            - prod 
+
+      exclude:
+        resources:
+          namespaces:
+            - kube-system
+            - kube-public
+            - kube-node-lease
+            - argocd
+            - kyverno
+            - ingress-nginx
+            - cert-manager
+            - monitoring        
+
+
       validate:
         message: "Using image tag 'latest' is not allowed. Use a fixed version tag."
         pattern:
           spec:
             containers:
               - image: "!*:latest"
-            initContainers:
+            =(initContainers):          # optional anchor  -If a pod doesn’t have initContainers, Kyverno may not fail
               - image: "!*:latest"
+
+#Fixed version:
+#Works for:
+#Pods WITH initContainers 
+#Pods WITHOUT initContainers              

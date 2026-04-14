@@ -26,7 +26,7 @@ spec:
         path: charts/microservice-base
         helm:
           valueFiles:
-          - values.yaml
+          - https://raw.githubusercontent.com/VaibhavShejul09/rankx-environments/main/{{path}}/values.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: dev

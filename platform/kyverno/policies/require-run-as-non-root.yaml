@@ -3,22 +3,49 @@ kind: ClusterPolicy
 metadata:
   name: require-run-as-non-root
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   validationFailureAction: enforce
   background: true
+
   rules:
     - name: check-run-as-non-root
       match:
         resources:
           kinds:
             - Pod
+          namespaces:
+            - dev
+            - qa
+            - prod
+      exclude:
+        resources:
+          namespaces:
+            - kube-system
+            - kube-public
+            - kube-node-lease
+            - argocd
+            - kyverno
+            - ingress-nginx
+            - cert-manager
+            - monitoring      
+
       validate:
-        message: "Containers must not run as root user"
+        message: "Containers must run as non-root user"
+
         pattern:
           spec:
-            securityContext:
-              runAsNonRoot: true
             containers:
               - securityContext:
                   runAsNonRoot: true
+                  runAsUser: ">0"
+
+            =(initContainers):   # optional but secured
+              - securityContext:
+                  runAsNonRoot: true
+                  runAsUser: ">0"
+
+
+#runAsUser: ">0"
+#Ensures NOT root (root = UID 0)
+#Stronger than only runAsNonRoot                  

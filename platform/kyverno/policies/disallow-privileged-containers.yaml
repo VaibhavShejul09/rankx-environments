@@ -1,22 +1,23 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: require-health-probes
+  name: disallow-privileged-containers
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
   validationFailureAction: enforce
   background: true
+
   rules:
-    - name: require-probes
+    - name: block-privileged
       match:
         resources:
           kinds:
             - Pod
           namespaces:
-            - dev   # ✅ apply ONLY to dev
+            - dev
             - qa
-            - prod 
+            - prod
       exclude:
         resources:
           namespaces:
@@ -27,13 +28,17 @@ spec:
             - kyverno
             - ingress-nginx
             - cert-manager
-            - monitoring    
+            - monitoring       
+
       validate:
-        message: "Liveness and readiness probes are required for all containers"
+        message: "Privileged containers are not allowed"
+
         pattern:
           spec:
             containers:
-              - livenessProbe: {}
-                readinessProbe: {}
+              - securityContext:
+                  privileged: false
 
-#We DO NOT enforce probes on initContainers                
+            =(initContainers):
+              - securityContext:
+                  privileged: false

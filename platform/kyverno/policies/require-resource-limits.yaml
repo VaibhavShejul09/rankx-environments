@@ -3,16 +3,35 @@ kind: ClusterPolicy
 metadata:
   name: require-resource-limits
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   validationFailureAction: enforce
   background: true
+  failurePolicy: Fail   # 🔥without this  Pod may still get created  with this Pod will be blocked ✅
+
   rules:
     - name: check-resource-limits
       match:
         resources:
           kinds:
             - Pod
+          namespaces:
+            - dev   # ✅ apply ONLY to dev
+            - qa
+            - prod
+
+      exclude:
+        resources:
+          namespaces:
+            - kube-system
+            - kube-public
+            - kube-node-lease
+            - argocd
+            - kyverno
+            - ingress-nginx
+            - cert-manager
+            - monitoring
+
       validate:
         message: "CPU and memory requests & limits are required for all containers"
         pattern:
@@ -25,3 +44,12 @@ spec:
                   limits:
                     cpu: "?*"
                     memory: "?*"
+
+# Instead of excluding many namespaces ❌
+# Use label-based control ✅
+#match:
+#  resources:
+#    namespaceSelector:
+#      matchLabels:
+#        policy: enforce
+#kubectl label namespace dev policy=enforce

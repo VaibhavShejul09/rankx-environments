@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restrict-image-registries
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: allow-only-approved-registries
+      match:
+        resources:
+          kinds:
+            - Pod
+          namespaces:
+            - dev   # ✅ apply ONLY to dev
+            - qa
+            - prod
+      validate:
+        message: "Only approved registries are allowed"
+        pattern:
+          spec:
+            containers:
+              - image: "shejulv088/*"
