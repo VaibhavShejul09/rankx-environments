@@ -32,7 +32,6 @@ spec:
 
       validate:
         message: "Containers must run as non-root user"
-
         pattern:
           spec:
             containers:
@@ -40,8 +39,8 @@ spec:
                   runAsNonRoot: true
                   runAsUser: ">0"
 
-              =(initContainers):   # optional but secured
-               - securityContext:
+            =(initContainers):
+              - securityContext:
                   runAsNonRoot: true
                   runAsUser: ">0"
 

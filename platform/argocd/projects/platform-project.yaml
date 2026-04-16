@@ -4,7 +4,7 @@ metadata:
   name: platform
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   description: Platform components (infra)
 
@@ -20,6 +20,8 @@ spec:
       server: https://kubernetes.default.svc
     - namespace: prod
       server: https://kubernetes.default.svc
+    - namespace: kyverno
+      server: https://kubernetes.default.svc  
 
   clusterResourceWhitelist:
     - group: '*'
