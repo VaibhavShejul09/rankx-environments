@@ -5,9 +5,25 @@ replicaCount: 1
 service:
   port: 3306
 
+securityContext:
+  pod:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 1000
+  
+
+  container:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false  
+
+
 image:
   repository: mysql
   tag: 8.0
+  imagePullPolicy: IfNotPresent
+
+  
 
 # Secret must be a map of key/value pairs, not just a name
 secret:
@@ -25,13 +41,22 @@ persistence:
   storageClass: gp3             # 🔥 REQUIRED for EBS
   size: 5Gi  
 
+# startupProbe
+startupProbe:
+  exec:
+    - sh
+    - -c
+    - mysqladmin ping -uroot -p${MYSQL_ROOT_PASSWORD}
+  periodSeconds: 10
+  failureThreshold: 30
+
 # Liveness probe
 livenessProbe:
   exec:
     - sh
     - -c
-    - mysqladmin ping -uroot -p$MYSQL_ROOT_PASSWORD
-  initialDelaySeconds: 180
+    - mysqladmin ping -uroot -p${MYSQL_ROOT_PASSWORD}
+  initialDelaySeconds: 30
   periodSeconds: 30
   timeoutSeconds: 5
   failureThreshold: 3
@@ -41,9 +66,9 @@ readinessProbe:
   exec:
     - sh
     - -c
-    - mysqladmin ping -uroot -p$MYSQL_ROOT_PASSWORD
-  initialDelaySeconds: 120
-  periodSeconds: 20
+    - mysqladmin ping -uroot -p${MYSQL_ROOT_PASSWORD}
+  initialDelaySeconds: 10
+  periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 3
 

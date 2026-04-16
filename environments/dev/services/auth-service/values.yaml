@@ -15,6 +15,17 @@ image:
   tag: "7-abbe6ba"
   pullPolicy: IfNotPresent
 
+securityContext:
+  pod:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 1000
+
+  container:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+
 # -------------------------
 # Service config
 # -------------------------
@@ -51,6 +62,10 @@ secret:
 initContainers:
   - name: wait-for-mysql-auth
     image: busybox
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      allowPrivilegeEscalation: false
     command:
       - sh
       - -c
@@ -60,12 +75,23 @@ initContainers:
           sleep 5
         done
 
+
+# -------------------------
+# Startup Probe  # startupProbe handles startup delay
+# -------------------------
+startupProbe:
+  path: /actuator/health
+  initialDelaySeconds: 0
+  periodSeconds: 5
+  timeoutSeconds: 2
+  failureThreshold: 30   # 150 sec startup time
+
 # -------------------------
 # Liveness Probe
 # -------------------------
 livenessProbe:
   path: /actuator/health
-  initialDelaySeconds: 90
+  initialDelaySeconds: 10   # 🔥 reduce
   periodSeconds: 20
   timeoutSeconds: 2
   failureThreshold: 5
@@ -75,8 +101,8 @@ livenessProbe:
 # -------------------------
 readinessProbe:
   path: /actuator/health
-  initialDelaySeconds: 120
-  periodSeconds: 20
+  initialDelaySeconds: 5    # 🔥 reduce
+  periodSeconds: 10         # 🔥 faster response
   timeoutSeconds: 2
   failureThreshold: 3
 

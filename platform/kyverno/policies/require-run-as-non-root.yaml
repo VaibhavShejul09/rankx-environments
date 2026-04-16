@@ -40,8 +40,8 @@ spec:
                   runAsNonRoot: true
                   runAsUser: ">0"
 
-            =(initContainers):   # optional but secured
-              - securityContext:
+              =(initContainers):   # optional but secured
+               - securityContext:
                   runAsNonRoot: true
                   runAsUser: ">0"
 
