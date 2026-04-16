@@ -19,7 +19,7 @@ securityContext:
 
 
 image:
-  repository: mysql
+  repository: bitnami/mysql
   tag: 8.0
   imagePullPolicy: IfNotPresent
 

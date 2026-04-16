@@ -5,8 +5,14 @@ replicaCount: 1
 service:
   port: 3306
 
+securityContext:
+  pod:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 1000  
+
 image:
-  repository: mysql
+  repository: bitnami/mysql
   tag: 8.0
   imagePullPolicy: IfNotPresent
 
