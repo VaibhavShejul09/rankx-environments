@@ -2,6 +2,12 @@ kind: StatefulSet
 name: mysql-submission-service
 replicaCount: 1
 
+labels:
+  component: database
+  env: dev
+  team: backend
+  tier: db
+
 service:
   port: 3306
 

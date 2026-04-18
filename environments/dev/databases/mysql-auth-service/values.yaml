@@ -2,6 +2,13 @@ kind: StatefulSet
 name: mysql-auth-service
 replicaCount: 1
 
+
+labels:
+  component: database
+  env: dev
+  team: backend
+  tier: db
+
 service:
   port: 3306
 

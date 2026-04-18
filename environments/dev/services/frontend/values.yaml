@@ -5,6 +5,12 @@ name: frontend
 replicaCount: 1
 syncWave: 6
 
+labels:
+  component: frontend
+  env: dev
+  team: frontend
+  tier: app
+
 image:
   repository: shejulv088/final_frontend
   tag: v1

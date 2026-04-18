@@ -107,3 +107,103 @@ Later
 🔸 SecurityContext
 
 Later
+
+
+
+
+=====================================================================
+Date : 17-04-2026
+Kyverno Policies
+=====================================================================
+
+=====================================================================
+Date : 17-04-2026
+Network Policies
+=====================================================================
+
+## How to Enable NetworkPolicy in EKS
+
+EKS + AWS VPC CNI + Calico
+
+# Intallation
+
+helm repo add projectcalico https://docs.projectcalico.org/charts
+helm install calico projectcalico/tigera-operator
+
+----------------------------
+
+# With Calico:
+Pod → Calico → Policy check → Allow/Deny
+
+
+
+# 🚨 7. Common Mistakes (You must avoid)
+❌ Mistake 1:
+
+Applying NetworkPolicy without Calico
+👉 It won’t work
+
+❌ Mistake 2:
+
+Blocking DNS
+
+👉 Always allow:
+
+Pod → kube-dns
+❌ Mistake 3:
+
+Applying policy without testing
+
+
+## Production Security Model (VERY IMPORTANT)
+
+We follow:
+
+DEFAULT: DENY EVERYTHING
+ALLOW: ONLY REQUIRED TRAFFIC
+
+This is called Zero Trust Networking
+
+
+----------------------------------------------
+When you install Calico:
+
+calico-node DaemonSet on each node
+calico controllers
+
+
+Git YAML
+ ↓
+ArgoCD sync
+ ↓
+Kubernetes API stores NetworkPolicy
+ ↓
+Calico watches API
+ ↓
+Calico programs iptables/eBPF rules
+ ↓
+Traffic allowed/blocked
+
+
+-----------------------------
+
+Platform Layer First:
+Order	Component
+1	EKS Cluster
+2	OIDC / IAM addons
+3	EBS CSI
+4	Calico / Cilium
+5	ArgoCD
+6	Kyverno
+7	NetworkPolicies
+8	Applications
+
+
+---------------------------------
+Bootstrap manually:
+Cluster
+CNI
+Storage
+ArgoCD
+
+Then everything else via GitOps.

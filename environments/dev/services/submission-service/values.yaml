@@ -7,6 +7,12 @@ name: submission-service
 replicaCount: 1
 syncWave: 4
 
+labels:
+  component: backend
+  env: dev
+  team: backend
+  tier: app
+
 # -------------------------
 # Docker image
 # -------------------------

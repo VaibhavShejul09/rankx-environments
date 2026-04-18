@@ -4,6 +4,12 @@ name: discovery-server
 replicaCount: 1
 syncWave: 1
 
+labels:
+  component: backend
+  env: dev
+  team: backend
+  tier: app
+
 image:
   repository: shejulv088/final_discovery_server
   tag: "2-02b46d8"

@@ -7,6 +7,12 @@ name: problem-service
 replicaCount: 1
 syncWave: 3
 
+labels:
+  component: backend
+  env: dev
+  team: backend
+  tier: app
+
 # -------------------------
 # Docker image
 # -------------------------

@@ -3,6 +3,12 @@ replicaCount: 1
 syncWave: 5
 kind: Deployment
 
+labels:
+  component: backend
+  env: dev
+  team: backend
+  tier: app
+
 image:
   repository: shejulv088/jenkins_api_gateway
   tag: "18-08cd9c8"

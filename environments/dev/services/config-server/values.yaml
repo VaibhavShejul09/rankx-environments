@@ -4,6 +4,14 @@ name: config-server
 
 replicaCount: 1
 syncWave: 0
+
+labels:
+  component: backend
+  env: dev
+  team: backend
+  tier: app
+  
+
 image:
   repository: shejulv088/final_config_server
   tag: "4-d4e1e97"
