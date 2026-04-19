@@ -79,7 +79,7 @@ readinessProbe:
   timeoutSeconds: 5
   failureThreshold: 3
 
-  resources:
+resources:
   requests:
     cpu: "200m"
     memory: "512Mi"
