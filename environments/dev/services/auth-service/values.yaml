@@ -89,9 +89,7 @@ initContainers:
 # Startup Probe  # startupProbe handles startup delay
 # -------------------------
 startupProbe:
-  httpGet:
-    path: /actuator/health
-    port: 8081
+  path: /actuator/health
   initialDelaySeconds: 20
   periodSeconds: 10
   timeoutSeconds: 5
