@@ -3,7 +3,7 @@
 # -------------------------
 kind: Deployment
 
-name: auth-backend
+name: auth-service
 replicaCount: 1
 syncWave: 2
 

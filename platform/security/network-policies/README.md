@@ -79,3 +79,19 @@ labels:
   env: dev
   team: backend
   tier: app
+
+
+
+------------------------------------------------------------------------
+
+# How Real Companies Implement NetworkPolicies
+
+They do NOT start by blocking everything blindly.
+
+They follow:
+
+Step 1: Identify traffic flows
+Step 2: Standardize labels
+Step 3: Apply base policies
+Step 4: Test apps
+Step 5: Tighten rules gradually

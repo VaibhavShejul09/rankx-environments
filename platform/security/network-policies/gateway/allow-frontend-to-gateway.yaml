@@ -5,7 +5,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/component: "backend"
+      app.kubernetes.io/component: "api-gateway"
 
   policyTypes:
   - Ingress
@@ -14,4 +14,4 @@ spec:
   - from:
     - podSelector:
         matchLabels:
-          app.kubernetes.io/name: "api-gateway"
+          app.kubernetes.io/name: "frontend"

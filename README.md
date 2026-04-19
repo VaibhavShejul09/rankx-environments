@@ -207,3 +207,19 @@ Storage
 ArgoCD
 
 Then everything else via GitOps.
+
+-----------------------------------
+## Policies 
+
+1. Default Deny Policies
+2. DNS Allow Policies
+3. Ingress Access Policies
+4. Database Isolation Policies
+5. Egress Control Policies
+6. Namespace Isolation Policies
+7. Monitoring / Observability Policies
+8. Ingress Controller / Load Balancer Policies
+9. Batch / Job Policies
+10. External Dependency Policies
+11. Multi-Tenant Team Isolation Policies
+12. Emergency Break-Glass Policies
