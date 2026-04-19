@@ -28,17 +28,18 @@ service:
   type: ClusterIP
   port: 8082
 
-
 securityContext:
   pod:
     runAsNonRoot: true
-    runAsUser: 1000
-    fsGroup: 1000
+    runAsUser: 1001
+    fsGroup: 1001
+  
 
   container:
     runAsNonRoot: true
-    allowPrivilegeEscalation: false
-    readOnlyRootFilesystem: false  
+    runAsUser: 1001
+    privileged: false
+    allowPrivilegeEscalation: false  
 
 # -------------------------
 # ConfigMap
