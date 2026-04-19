@@ -39,7 +39,6 @@ securityContext:
     runAsNonRoot: true
     runAsUser: 1001
     privileged: false
-    privileged: false
     allowPrivilegeEscalation: false  
 
 # -------------------------
@@ -71,6 +70,7 @@ initContainers:
     image: busybox
     securityContext:
       runAsNonRoot: true
+      privileged: false
       allowPrivilegeEscalation: false
     command:
       - sh
