@@ -89,10 +89,12 @@ initContainers:
 # Startup Probe  # startupProbe handles startup delay
 # -------------------------
 startupProbe:
-  path: /actuator/health
-  initialDelaySeconds: 0
-  periodSeconds: 5
-  timeoutSeconds: 2
+  httpGet:
+    path: /actuator/health
+    port: 8081
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  timeoutSeconds: 5
   failureThreshold: 30   # 150 sec startup time
 
 # -------------------------
@@ -100,7 +102,7 @@ startupProbe:
 # -------------------------
 livenessProbe:
   path: /actuator/health
-  initialDelaySeconds: 10   # 🔥 reduce
+  initialDelaySeconds: 60   # 🔥 reduce
   periodSeconds: 20
   timeoutSeconds: 2
   failureThreshold: 5
@@ -110,7 +112,7 @@ livenessProbe:
 # -------------------------
 readinessProbe:
   path: /actuator/health
-  initialDelaySeconds: 5    # 🔥 reduce
+  initialDelaySeconds: 30    # 🔥 reduce
   periodSeconds: 10         # 🔥 faster response
   timeoutSeconds: 2
   failureThreshold: 3
