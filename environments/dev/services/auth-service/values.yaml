@@ -90,7 +90,7 @@ initContainers:
 # -------------------------
 startupProbe:
   path: /actuator/health
-  initialDelaySeconds: 20
+  initialDelaySeconds: 60
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 30   # 150 sec startup time
