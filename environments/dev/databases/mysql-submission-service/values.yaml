@@ -14,8 +14,15 @@ service:
 securityContext:
   pod:
     runAsNonRoot: true
-    runAsUser: 1000
-    fsGroup: 1000  
+    runAsUser: 1001
+    fsGroup: 1001
+  
+
+  container:
+    runAsNonRoot: true
+    runAsUser: 1001
+    privileged: false
+    allowPrivilegeEscalation: false  
 
 image:
   repository: bitnami/mysql
