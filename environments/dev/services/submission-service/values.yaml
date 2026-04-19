@@ -39,6 +39,7 @@ securityContext:
     runAsNonRoot: true
     runAsUser: 1001
     privileged: false
+    privileged: false
     allowPrivilegeEscalation: false  
 
 # -------------------------

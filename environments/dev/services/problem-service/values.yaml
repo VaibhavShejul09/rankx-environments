@@ -70,6 +70,7 @@ initContainers:
     image: busybox
     securityContext:
       runAsNonRoot: true
+      privileged: false
       allowPrivilegeEscalation: false
     command:
       - sh
