@@ -1,0 +1,53 @@
+namespace: dev
+
+policies:
+  defaultDenyIngress: true
+
+
+frontend:
+  enabled: true
+
+gateway:
+  enabled: true
+  port: 8080
+
+services:
+  config:
+    enabled: true
+    port: 8888
+
+  discovery:
+    enabled: true
+    port: 8761
+
+  auth:
+    enabled: true
+    port: 8081
+
+  problem:
+    enabled: true
+    port: 8082
+
+  submission:
+    enabled: true
+    port: 8083
+
+redis:
+  enabled: true
+  port: 6379
+
+
+database:
+
+  auth:
+    enabled: true
+    port: 3306
+
+
+  problem:
+    enabled: true
+    port: 3306   
+    
+  submission:
+    enabled: true
+    port: 3306   

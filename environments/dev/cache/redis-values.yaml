@@ -1,0 +1,30 @@
+redis:
+  enabled: true
+  replicaCount: 1
+
+image:
+  repository: redis
+  tag: "7.2"
+  pullPolicy: IfNotPresent
+
+service:
+  port: 6379
+  targetPort: 6379
+
+labels:
+  env: dev
+  team: platform
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+  limits:
+    cpu: 300m
+    memory: 256Mi
+
+persistence:
+  enabled: false
+  size: 2Gi
+  storageClass: gp3

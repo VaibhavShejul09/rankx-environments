@@ -5,10 +5,21 @@ replicaCount: 1
 syncWave: 1
 
 labels:
-  component: backend
+  component: discovery
   env: dev
-  team: backend
-  tier: app
+  team: platform
+  tier: infra
+
+  owner: platform-team
+  criticality: high
+  costCenter: engineering
+  businessUnit: rankx
+
+  compliance: internal
+  dataClassification: internal
+
+  monitoring: enabled
+  backup: required
 
 image:
   repository: shejulv088/final_discovery_server

@@ -4,10 +4,21 @@ syncWave: 5
 kind: Deployment
 
 labels:
-  component: backend
+  component: gateway
   env: dev
   team: backend
-  tier: app
+  tier: edge
+
+  owner: platform-team
+  criticality: high
+  costCenter: engineering
+  businessUnit: rankx
+
+  compliance: internal
+  dataClassification: internal
+
+  monitoring: enabled
+  backup: required
 
 image:
   repository: shejulv088/jenkins_api_gateway

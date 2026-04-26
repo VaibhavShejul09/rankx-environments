@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 
 metadata:
-  name: network-policies
+  name: redis-dev
   namespace: argocd
 
   annotations:
@@ -15,11 +15,11 @@ spec:
     # Helm Chart Repository
     - repoURL: https://github.com/VaibhavShejul09/centralized-helm-repo.git
       targetRevision: main
-      path: charts/rankx-network-policies
+      path: charts/redis
 
       helm:
         valueFiles:
-          - $values/environments/dev/security/network-policies-values.yaml
+          - $values/environments/dev/cache/redis-values.yaml
 
     # Values Repository
     - repoURL: https://github.com/VaibhavShejul09/rankx-environments.git

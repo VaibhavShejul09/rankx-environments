@@ -9,7 +9,18 @@ labels:
   component: frontend
   env: dev
   team: frontend
-  tier: app
+  tier: edge
+
+  owner: platform-team
+  criticality: high
+  costCenter: engineering
+  businessUnit: rankx
+
+  compliance: internal
+  dataClassification: internal
+
+  monitoring: enabled
+  backup: required
 
 image:
   repository: shejulv088/final_frontend

@@ -4,10 +4,21 @@ replicaCount: 1
 
 
 labels:
-  component: database
+  component: db
   env: dev
   team: backend
-  tier: db
+  tier: data
+
+  owner: platform-team
+  criticality: critical
+  costCenter: engineering
+  businessUnit: rankx
+
+  compliance: internal
+  dataClassification: confidential
+
+  monitoring: enabled
+  backup: required
 
 service:
   port: 3306

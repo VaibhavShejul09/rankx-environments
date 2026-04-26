@@ -12,6 +12,17 @@ labels:
   env: dev
   team: backend
   tier: app
+ 
+  owner: platform-team
+  criticality: high
+  costCenter: engineering
+  businessUnit: rankx
+
+  compliance: internal
+  dataClassification: internal
+
+  monitoring: enabled
+  backup: required
 
 # -------------------------
 # Docker image
