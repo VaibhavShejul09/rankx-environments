@@ -15,6 +15,7 @@ spec:
       include: "dev-*"     #when want to deply all env add - include: "dev-*,qa-*,prod-*" 
   destination:
     server: https://kubernetes.default.svc
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true

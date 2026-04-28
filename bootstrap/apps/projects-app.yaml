@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-root
+  name: argocd-projects
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-1"   # 🔥 Root starts first
+    argocd.argoproj.io/sync-wave: "-5"
 spec:
   project: default
   source:
     repoURL: https://github.com/VaibhavShejul09/rankx-environments.git
     targetRevision: main
-    path: platform/apps
+    path: platform/argocd/projects
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
@@ -18,5 +18,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true

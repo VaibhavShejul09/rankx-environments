@@ -4,15 +4,16 @@ metadata:
   name: namespaces
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
-  project: platform
+  project: default
   source:
     repoURL: https://github.com/VaibhavShejul09/rankx-environments.git
     targetRevision: main
     path: platform/namespaces
   destination:
     server: https://kubernetes.default.svc
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true

@@ -1,20 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kyverno
+  name: platform-root
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "-1"   # 🔥 Root starts first
 spec:
-  project: platform
+  project: default
   source:
     repoURL: https://github.com/VaibhavShejul09/rankx-environments.git
     targetRevision: main
-    path: platform/kyverno/policies
+    path: bootstrap/apps
   destination:
     server: https://kubernetes.default.svc
-    namespace: kyverno
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
