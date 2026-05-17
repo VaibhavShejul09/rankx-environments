@@ -1,0 +1,104 @@
+kind: Deployment
+
+name: frontend-admin
+
+replicaCount: 1
+syncWave: 9
+
+labels:
+  component: frontendadmin
+  env: dev
+  team: frontend
+  tier: edge
+
+  owner: platform-team
+  criticality: high
+  costCenter: engineering
+  businessUnit: rankx
+
+  compliance: internal
+  dataClassification: internal
+
+  monitoring: enabled
+  backup: required
+
+image:
+  repository: shejulv088/final_frontend
+  tag: v1
+
+service:
+  type: ClusterIP
+  port: 8080
+
+securityContext:
+  pod:
+    runAsNonRoot: true
+    runAsUser: 1001
+    fsGroup: 1001
+  
+
+  container:
+    runAsNonRoot: true
+    runAsUser: 1001
+    privileged: false
+    allowPrivilegeEscalation: false   
+
+config: {}
+secret: {}
+
+initContainers:
+  - name: wait-for-backend
+    image: busybox:1.36
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      privileged: false
+      allowPrivilegeEscalation: false
+    command:
+      - sh
+      - -c
+      - |
+        echo "Waiting for backend to be ready..."
+        until nc -z api-gateway 8080; do
+          echo "Backend not ready, sleeping 5s..."
+          sleep 5
+        done
+        echo "Backend is ready!"
+
+# -------------------------
+# Startup Probe  # startupProbe handles startup delay
+# -------------------------
+startupProbe:
+  path: /actuator/health
+  initialDelaySeconds: 0
+  periodSeconds: 5
+  timeoutSeconds: 2
+  failureThreshold: 30   # 150 sec startup time
+
+# -------------------------
+# Liveness Probe
+# -------------------------
+livenessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 10   # 🔥 reduce
+  periodSeconds: 20
+  timeoutSeconds: 2
+  failureThreshold: 5
+
+# -------------------------
+# Readiness Probe
+# -------------------------
+readinessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 5    # 🔥 reduce
+  periodSeconds: 10         # 🔥 faster response
+  timeoutSeconds: 2
+  failureThreshold: 3
+
+resources:
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"

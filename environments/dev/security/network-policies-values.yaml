@@ -3,14 +3,17 @@ namespace: dev
 policies:
   defaultDenyIngress: true
 
-
+#######################################################
 frontend:
   enabled: true
-
+#######################################################
+frontendadmin:
+  enabled: true  
+#######################################################
 gateway:
   enabled: true
   port: 8080
-
+#######################################################
 services:
   config:
     enabled: true
@@ -32,11 +35,31 @@ services:
     enabled: true
     port: 8083
 
+  quize:
+    enabled: true
+    port: 8086
+
+  user:
+    enabled: true
+    port: 8088  
+
+  result:
+    enabled: true
+    port: 8087    
+
+  question:
+    enabled: true
+    port: 8085
+
+  attempt:
+    enabled: true
+    port: 8084       
+######################################################
 redis:
   enabled: true
   port: 6379
 
-
+#######################################################
 database:
 
   auth:
@@ -50,4 +73,24 @@ database:
     
   submission:
     enabled: true
-    port: 3306   
+    port: 3306  
+
+  attempt:
+    enabled: true
+    port: 3306 
+
+  question:
+    enabled: true
+    port: 3306
+
+  quize:
+    enabled: true
+    port: 3306 
+
+  result:
+    enabled: true
+    port: 3306 
+
+  user:
+    enabled: true
+    port: 3306          

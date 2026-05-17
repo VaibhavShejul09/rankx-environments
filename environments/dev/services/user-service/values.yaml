@@ -1,0 +1,136 @@
+# -------------------------
+# Deployment Kind
+# -------------------------
+kind: Deployment
+
+name: user-service
+replicaCount: 1
+syncWave: 9
+
+labels:
+  component: backend
+  env: dev
+  team: backend
+  tier: app
+
+  owner: platform-team
+  criticality: high
+  costCenter: engineering
+  businessUnit: rankx
+
+  compliance: internal
+  dataClassification: internal
+
+  monitoring: enabled
+  backup: required
+  
+# -------------------------
+# Docker image
+# -------------------------
+image:
+  repository: shejulv088/final_attempt_service
+  tag: ""
+  pullPolicy: IfNotPresent
+
+securityContext:
+  pod:
+    runAsNonRoot: true
+    runAsUser: 1001
+    fsGroup: 1001
+  
+
+  container:
+    runAsNonRoot: true
+    runAsUser: 1001
+    privileged: false
+    allowPrivilegeEscalation: false
+
+# -------------------------
+# Service config
+# -------------------------
+service:
+  type: ClusterIP
+  port: 8088
+
+# -------------------------
+# ConfigMap
+# -------------------------
+config:
+  SPRING_JPA_HIBERNATE_DDL_AUTO: update
+  SPRING_JPA_SHOW_SQL: "true"
+  SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+
+  SPRING_CONFIG_URI: http://config-server:8888
+  SPRING_PROFILES_ACTIVE: native
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql-user-service:3306/application_user_db
+  SPRING_DATASOURCE_USERNAME: root
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka
+  JAVA_TOOL_OPTIONS: "-Xms256m -Xmx350m"
+
+# -------------------------
+# Secret
+# -------------------------
+secret:
+  SPRING_DATASOURCE_PASSWORD: root
+
+# -------------------------
+# Init container for MySQL
+# -------------------------
+initContainers:
+  - name: wait-for-mysql-auth
+    image: busybox
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      privileged: false
+      allowPrivilegeEscalation: false
+    command:
+      - sh
+      - -c
+      - |
+        echo "Waiting for MySQL..."
+        until nc -z mysql-user-service 3306; do
+          sleep 5
+        done
+
+
+# -------------------------
+# Startup Probe  # startupProbe handles startup delay
+# -------------------------
+startupProbe:
+  path: /actuator/health
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 30   # 150 sec startup time
+
+# -------------------------
+# Liveness Probe
+# -------------------------
+livenessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 60   # 🔥 reduce
+  periodSeconds: 20
+  timeoutSeconds: 2
+  failureThreshold: 5
+
+# -------------------------
+# Readiness Probe
+# -------------------------
+readinessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 30    # 🔥 reduce
+  periodSeconds: 10         # 🔥 faster response
+  timeoutSeconds: 2
+  failureThreshold: 3
+
+# -------------------------
+# Resources (optional)
+# -------------------------
+resources:
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
