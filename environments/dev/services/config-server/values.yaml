@@ -23,8 +23,8 @@ labels:
   backup: required
 
 image:
-  repository: shejulv088/final_config_server
-  tag: "4-d4e1e97"
+  repository: shejulv088/rankx-config-server
+  tag: "v1"
 
 service:
   type: ClusterIP

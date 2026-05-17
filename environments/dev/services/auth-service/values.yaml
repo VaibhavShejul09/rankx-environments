@@ -28,8 +28,8 @@ labels:
 # Docker image
 # -------------------------
 image:
-  repository: shejulv088/final_auth_service
-  tag: "7-abbe6ba"
+  repository: shejulv088/rankx-auth-service
+  tag: "v1"
   pullPolicy: IfNotPresent
 
 securityContext:
@@ -94,7 +94,6 @@ initContainers:
         until nc -z mysql-auth-service 3306; do
           sleep 5
         done
-
 
 # -------------------------
 # Startup Probe  # startupProbe handles startup delay

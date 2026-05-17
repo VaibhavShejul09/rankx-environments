@@ -23,8 +23,8 @@ labels:
   backup: required
 
 image:
-  repository: shejulv088/final_frontend
-  tag: v1
+  repository: shejulv088/rankx-admin-frontend
+  tag: "v1"
 
 service:
   type: ClusterIP

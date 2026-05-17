@@ -22,8 +22,8 @@ labels:
   backup: required
 
 image:
-  repository: shejulv088/final_discovery_server
-  tag: "2-02b46d8"
+  repository: shejulv088/rankx-discovery-server
+  tag: "v1"
 
 service:
   type: ClusterIP

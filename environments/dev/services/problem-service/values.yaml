@@ -28,8 +28,8 @@ labels:
 # Docker image
 # -------------------------
 image:
-  repository: shejulv088/final_problem_service
-  tag: "7-e5bdcef"
+  repository: shejulv088/rankx-problem-service
+  tag: "v1"
   pullPolicy: IfNotPresent
 
 # -------------------------

@@ -28,8 +28,8 @@ labels:
 # Docker image
 # -------------------------
 image:
-  repository: shejulv088/final_attempt_service
-  tag: ""
+  repository: shejulv088/rankx-user-service
+  tag: "v1"
   pullPolicy: IfNotPresent
 
 securityContext:
