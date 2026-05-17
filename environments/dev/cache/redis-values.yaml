@@ -11,6 +11,19 @@ service:
   port: 6379
   targetPort: 6379
 
+securityContext:
+  pod:
+    runAsNonRoot: true
+    runAsUser: 1001
+    fsGroup: 1001
+
+  container:
+    runAsNonRoot: true
+    runAsUser: 1001
+    privileged: false
+    allowPrivilegeEscalation: false
+
+
 labels:
   env: dev
   team: platform
